@@ -17,10 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import path
+from django.urls import path, include
 from django.shortcuts import render
 from bookmark import views
 from todo import views as todo_views
+from users import views as user_views
 
 game_list = [
     {"title": "로스트아크", "company": "스마일 게이트"},
@@ -67,13 +68,16 @@ urlpatterns = [
     # path("", index),
     # path("book_list/", book_list),
     # path("book_list/<int:num>/", book),
-    # path("language/<str:lang>", language),
+    # path("language/<str:lang>/", language),
     # path("game/", games),
-    # path("game/<int:index>", game_detail),
+    # path("game/<int:index>/", game_detail),
     # path("gugu/", gugu),
     # path("gugu/<int:num>/", gugu_detail),
     path("bookmark/", views.bookmark_list),
-    path("bookmark/<int:pk>", views.bookmark_detail),
+    path("bookmark/<int:pk>/", views.bookmark_detail),
     path("todo/",todo_views.todo_list),
     path("todo/<int:todo_id>/",todo_views.todo_detail),
+    path("accounts/", include('django.contrib.auth.urls')),
+    path("accounts/login/",user_views.login, name="login"),
+    path("accounts/signup/", user_views.sing_up, name="signup"),
 ]
