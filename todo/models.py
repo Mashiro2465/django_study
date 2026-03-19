@@ -1,7 +1,9 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class ToDo(models.Model):
     title = models.CharField(max_length=50) #제목
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField() # 설명
     start_date = models.DateField()
     end_date = models.DateField()

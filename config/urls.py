@@ -75,9 +75,18 @@ urlpatterns = [
     # path("gugu/<int:num>/", gugu_detail),
     path("bookmark/", views.bookmark_list),
     path("bookmark/<int:pk>/", views.bookmark_detail),
-    path("todo/",todo_views.todo_list),
-    path("todo/<int:todo_id>/",todo_views.todo_detail),
-    path("accounts/", include('django.contrib.auth.urls')),
+
+
+    # todo
+    path("todo/",todo_views.todo_list, name = "todo_list"),
+    path("todo/<int:todo_id>/",todo_views.todo_info, name="todo_info"),
+    path("todo/create/", todo_views.todo_create, name="todo_create"),
+    path("todo/<int:todo_id>/update/", todo_views.todo_update, name="todo_update"),
+    path("todo/<int:todo_id>/delete/", todo_views.todo_delete, name="todo_delete"),
+
+
+    #auth
     path("accounts/login/",user_views.login, name="login"),
     path("accounts/signup/", user_views.sing_up, name="signup"),
+    path("accounts/", include('django.contrib.auth.urls')),
 ]

@@ -1,0 +1,12 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+        <form  method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>생성</button>
+        </form>
+    {% endif %}
+
+{% endblock %}

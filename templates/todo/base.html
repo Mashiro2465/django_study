@@ -5,12 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>ToDo List Page</h1>
 
     <nav style="text-align: right">
          {% if request.user.is_authenticated %}
             <div>
-                {{ request.user.username }}
+                {{ request.user.username }} 님 환영합니다.
                 <form action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}
                     <button>Logout</button>
@@ -24,22 +23,6 @@
         {% endif %}
 
     </nav>
-    <div>
-        {% if request.user.is_authenticated %}
-        <ul>
-            {% for todo in todos %}
-                <li>
-                    <a href="/todo/{{ todo.id }}">
-                        {{ todo.title }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-
-        {% else %}
-            <h1>로그인을 해주세요</h1>
-        {% endif %}
-    </div>
-
+    {% block content %} {% endblock %}
 </body>
 </html>

@@ -1,0 +1,22 @@
+
+{% extends 'todo/base.html' %}
+{% block content %}
+    <h1>{{ todo.title }} 의 상세정보 페이지</h1>
+    <div>
+        <button onclick="location.href='{% url 'todo_update' todo.id %}'">수정하기</button>
+        <form action="{% url 'todo_delete' todo.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">삭제하기</button>
+        </form>
+    </div>
+    <hr>
+
+    <p>{{ todo.description }}</p>
+    <p>{{ todo.start_date }}</p>
+    <p>{{ todo.end_date }}</p>
+    <p>{{ todo.is_completed }}</p>
+    <p>{{ todo.created_at }}</p>
+    <p>{{ todo.updated_at }}</p>
+
+    <a href="{% url 'todo_list' %}">이전으로</a>
+{% endblock %}

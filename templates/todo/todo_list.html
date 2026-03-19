@@ -1,0 +1,60 @@
+
+{% extends 'todo/base.html' %}
+{% block content %}
+    <h1>({{ request.user.username }})의 ToDo List Page</h1>
+
+
+    <div>
+        {% if request.user.is_authenticated %}
+
+
+            <button onclick="location.href='{% url 'todo_create' %}'">생성하기</button>
+
+
+            <ul>
+                {% for todo in page_obj %}
+                    <li>
+                        <a href="{% url 'todo_info' todo.id %}">
+                            {{ todo.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+            <!-- 페이지네이션 -->
+            <div>
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">처음으로</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                        {% if num == page_obj.number %}
+                            <span style="color: red">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endif %}
+
+                {% endfor %}
+
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">다음</a>
+                	<a href="?page=={{ page_obj.paginator.num_pages }}">마지막</a>
+                {% endif %}
+
+            </div>
+
+
+
+
+
+        {% else %}
+            <h1>로그인을 해주세요</h1>
+        {% endif %}
+    </div>
+
+{% endblock %}
