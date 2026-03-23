@@ -20,8 +20,9 @@ from django.http import HttpResponse
 from django.urls import path, include
 from django.shortcuts import render
 from bookmark import views
-from todo import views as todo_views
 from users import views as user_views
+from todo.cb_views import TodoListView, TodoCreateView, TodoDetailView, TodoUpdateView, TodoDeleteView
+
 
 game_list = [
     {"title": "로스트아크", "company": "스마일 게이트"},
@@ -61,7 +62,7 @@ def gugu_detail(request, num):
 
     result = [num * i for i in range(1,10)]
 
-    return render(request, "gugu_detail.html", {"num": num, "result" : result})
+    return render(request, "gugu_detail.html", {"num": num, "result": result})
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -77,13 +78,9 @@ urlpatterns = [
     path("bookmark/<int:pk>/", views.bookmark_detail),
 
 
-    # todo
-    path("todo/",todo_views.todo_list, name = "todo_list"),
-    path("todo/<int:todo_id>/",todo_views.todo_info, name="todo_info"),
-    path("todo/create/", todo_views.todo_create, name="todo_create"),
-    path("todo/<int:todo_id>/update/", todo_views.todo_update, name="todo_update"),
-    path("todo/<int:todo_id>/delete/", todo_views.todo_delete, name="todo_delete"),
+    # todo_urls
 
+    path('todo/', include('todo.urls')),
 
     #auth
     path("accounts/login/",user_views.login, name="login"),

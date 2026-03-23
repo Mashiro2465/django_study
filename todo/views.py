@@ -28,7 +28,7 @@ def todo_list(request):
 
 @login_required()
 def todo_info(request, todo_id):
-    todo = get_object_or_404(ToDo, id=todo_id)
+    todo = get_object_or_404(ToDo, id=todo_id, user=request.user)
     context = {
         "todo" : todo.__dict__
     }

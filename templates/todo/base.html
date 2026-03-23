@@ -10,7 +10,7 @@
          {% if request.user.is_authenticated %}
             <div>
                 {{ request.user.username }} 님 환영합니다.
-                <form action="{% url 'logout' %}" method="POST">
+                <form action="{% url 'todo:cbv_todo_list' %}" method="POST">
                     {% csrf_token %}
                     <button>Logout</button>
                 </form>

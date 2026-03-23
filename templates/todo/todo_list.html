@@ -8,13 +8,13 @@
         {% if request.user.is_authenticated %}
 
 
-            <button onclick="location.href='{% url 'todo_create' %}'">생성하기</button>
+            <button onclick="location.href='{% url 'todo:cbv_todo_create' %}'">생성하기</button>
 
 
             <ul>
                 {% for todo in page_obj %}
                     <li>
-                        <a href="{% url 'todo_info' todo.id %}">
+                        <a href="{% url 'todo:cbv_todo_info' todo.id %}">
                             {{ todo.title }}
                         </a>
                     </li>
