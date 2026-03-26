@@ -11,16 +11,27 @@
 
             <button onclick="location.href='{% url 'todo:cbv_todo_create' %}'">생성하기</button>
 
-
-            <ul>
-                {% for todo in page_obj %}
-                    <li>
-                        <a href="{% url 'todo:cbv_todo_info' todo.id %}">
-                            {{ todo.title }}
-                        </a>
-                    </li>
+            <form method="GET" class="mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="제목 또는 내용을 입력하세요." name="q" value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+            <div class="list-group mb-3">
+                {% for todo in page_obj.object_list %}
+                    {% if todo.is_completed %}
+                        <div class="list-group-item list-group-item-action">
+                            <img class="img-thumbnail" src="{{ todo.thumbnail.url }}" alt="썸네일이미지" style="width: 100px; height: 100px; object-fit: contain;">
+                            <a class="text-decoration-none text-black" href="{% url 'todo:cbv_todo_info' todo.id %}">[{{ todo.user.username }}]{{ todo.title }} (Completed)</a>
+                        </div>
+                    {% else %}
+                        <div class="list-group-item list-group-item-action">
+                            <img class="img-thumbnail" src="{{ todo.thumbnail.url }}" alt="썸네일이미지" style="width: 100px; height: 100px; object-fit: contain;">
+                            <a class="text-decoration-none text-black" href="{% url 'todo:cbv_todo_info' todo.id %}">[{{ todo.user.username }}] {{ todo.title }}</a>
+                        </div>
+                    {% endif %}
                 {% endfor %}
-            </ul>
+            </div>
             {% include 'todo/pagination.html' %}
 
 

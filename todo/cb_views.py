@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from django.db.models import Q
 
-from todo.forms import CommentForm
+from todo.forms import CommentForm, ToDoForm, ToDoUpdateForm
 from todo.models import ToDo, Comment
 
 
@@ -46,8 +46,8 @@ class TodoDetailView(LoginRequiredMixin,DetailView):
 
 class TodoCreateView(LoginRequiredMixin,CreateView):
     model = ToDo
-    fields = ['title', 'description', 'start_date', 'end_date']
-    template_name = 'todo/todo_create.html'
+    template_name = "todo/todo_create.html"
+    form_class = ToDoForm
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -56,12 +56,12 @@ class TodoCreateView(LoginRequiredMixin,CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('cbv_todo_info', kwargs={'pk': self.object.id})
+        return reverse_lazy('todo:cbv_todo_info', kwargs={'pk': self.object.id})
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = ToDo
-    fields = ["title", "description", "start_date", "end_date", "is_completed", "id"]
     template_name = "todo/todo_update.html"
+    form_class = ToDoUpdateForm
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -71,7 +71,7 @@ class TodoUpdateView(LoginRequiredMixin, UpdateView):
         return obj
 
     def get_success_url(self):
-        return reverse_lazy("cbv_todo_info", kwargs={"pk": self.object.id})
+        return reverse_lazy("todo:cbv_todo_info", kwargs={"pk": self.object.id})
 
 
 class TodoDeleteView(LoginRequiredMixin, DeleteView):
@@ -85,7 +85,7 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
         return obj
 
     def get_success_url(self):
-        return reverse_lazy('cbv_todo_list')
+        return reverse_lazy('todo:cbv_todo_list')
 
 
 class TodoDetailView(LoginRequiredMixin, DetailView):
